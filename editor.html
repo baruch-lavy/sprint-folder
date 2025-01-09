@@ -19,7 +19,14 @@
       <canvas id="meme-canvas"></canvas>
     </div>
     <div class="editor-tools">
-      <button id="add-text">Add Text</button>
+      <button id="paint-toggle">Toggle Paint Mode</button>
+      <input type="range" id="brush-size" min="1" max="50" value="5">
+      <label for="paint-color">Paint-color</label>
+      <input type="color" id="paint-color" value="#000000">
+      <label for="text-color">Text color</label>
+      <input type="color" id="text-color" value="#ffffff">
+      <!-- <button id="add-text">Add Text</button> -->
+      <button id="add-line-btn">Add Line</button>
       <button id="switch-line">Switch Line</button>
       <input type="text" id="text-input" placeholder="Edit text">
       <div>

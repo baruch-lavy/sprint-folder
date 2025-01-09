@@ -1,10 +1,5 @@
-import { setImg } from './meme-service.js'
+import {gImgs, setImg } from './meme-service.js'
 
-const gImgs = [
-  { id: 1, url: 'assets/img/img4.jpg', keywords: ['funny', 'animal'] },
-  { id: 2, url: 'assets/img/img2.jpg', keywords: ['funny', 'men'] },
-  { id: 3, url: 'assets/img5.jpg', keywords: ['cartoon', 'funny'] },
-];
 
 document.addEventListener('DOMContentLoaded', () => {
   renderGallery()
@@ -30,11 +25,15 @@ function setupSearch() {
 }
 
 // Select an image and navigate to the editor
+
 function selectImage(imgId) {
-  setImg(imgId)
-  window.location.href = 'editor.html'
+  setImg(imgId); 
+  localStorage.setItem('selectedImgId', imgId); // Sets the selected image ID
+  console.log('Navigating to editor with Image ID:', imgId); // Debug log
+  window.location.href = 'editor.html'; // Redirect to editor
 }
 
+
 // Attach `selectImage` to the global scope
-// window.selectImage = selectImage
+window.selectImage = selectImage
 
