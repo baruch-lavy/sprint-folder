@@ -20,19 +20,6 @@ console.log(gMeme)
 let gCanvas, gCtx;
 let paintLayer = null // Offscreen canvas for painting
 
-// Initialize the paint layer
-function initializePaintLayer() {
-  if (!paintLayer) {
-      paintLayer = document.createElement('canvas');
-      console.log('Paint layer created as:', paintLayer); // Debug
-  }
-
-  paintLayer.width = gCanvas.width;
-  paintLayer.height = gCanvas.height;
-  // console.log('Paint layer dimensions:', paintLayer.width, paintLayer.height); // Debug
-}
-
-
 
 // Initialize the editor
 document.addEventListener('DOMContentLoaded', () => {
@@ -62,18 +49,28 @@ function renderMeme() {
   if (savedMeme) {
       const img = new Image();
       img.src = savedMeme;
-
       img.onload = () => {
-          resizeCanvasToImage(img); // Resize gCanvas to fit the image
-          initializePaintLayer();  // Ensure paintLayer matches gCanvas size
-          drawImageCover(gCtx, img, 0, 0, gCanvas.width, gCanvas.height); // Draw the image
+          gCanvas.width = img.width;
+          gCanvas.height = img.height;
 
-          // Draw the paintLayer on top of the canvas
+          // Initialize paint layer if not already done
+          if (!paintLayer) {
+              paintLayer = document.createElement('canvas');
+              paintLayer.width = gCanvas.width;
+              paintLayer.height = gCanvas.height;
+          }
+
+          // Draw the image
+          gCtx.drawImage(img, 0, 0, img.width, img.height);
+
+          // Draw the paint layer
+          const paintCtx = paintLayer.getContext('2d');
           gCtx.drawImage(paintLayer, 0, 0);
 
           renderTextLines();
           renderStickers();
       };
+      img.onerror = () => console.error('Failed to load saved meme from localStorage');
       return;
   }
 
@@ -88,17 +85,29 @@ function renderMeme() {
   img.src = selectedImg.url;
 
   img.onload = () => {
-      resizeCanvasToImage(img); // Resize gCanvas to fit the image
-      initializePaintLayer();  // Ensure paintLayer matches gCanvas size
-      drawImageCover(gCtx, img, 0, 0, gCanvas.width, gCanvas.height); // Draw the image
+      gCanvas.width = img.width;
+      gCanvas.height = img.height;
 
-      // Draw the paintLayer on top of the canvas
+      // Initialize paint layer if not already done
+      if (!paintLayer) {
+          paintLayer = document.createElement('canvas');
+          paintLayer.width = gCanvas.width;
+          paintLayer.height = gCanvas.height;
+      }
+
+      // Draw the image
+      gCtx.drawImage(img, 0, 0, img.width, img.height);
+
+      // Draw the paint layer
+      const paintCtx = paintLayer.getContext('2d');
       gCtx.drawImage(paintLayer, 0, 0);
 
       renderTextLines();
       renderStickers();
   };
+  img.onerror = () => console.error('Failed to load selected image:', selectedImg.url);
 }
+
 
 
 // Resize the canvas to match the image dimensions
@@ -204,18 +213,11 @@ function setupEventListeners() {
     console.log('Paint color:', gCtx.strokeStyle);
   });
 
-
   gCanvas.addEventListener('mousedown', (event) => {
     if (!isPainting) return;
 
-    if (!paintLayer) {
-        console.error('Paint layer not initialized!');
-        // initializePaintLayer();
-    }
-
-    const paintCtx = paintLayer.getContext('2d');
     const { offsetX, offsetY } = event;
-
+    const paintCtx = paintLayer.getContext('2d');
     paintCtx.beginPath();
     paintCtx.moveTo(offsetX, offsetY);
 
@@ -223,22 +225,20 @@ function setupEventListeners() {
 });
 
 gCanvas.addEventListener('mousemove', (event) => {
-  if (!isPainting || !gCanvas.isDrawing) return;
+    if (!isPainting || !gCanvas.isDrawing) return;
 
-  const paintCtx = paintLayer.getContext('2d');
-  const { offsetX, offsetY } = event;
+    const { offsetX, offsetY } = event;
+    const paintCtx = paintLayer.getContext('2d');
 
-  paintCtx.lineCap = 'round';
-  paintCtx.lineJoin = 'round';
-  paintCtx.lineWidth = gCtx.lineWidth;
-  paintCtx.strokeStyle = gCtx.strokeStyle;
+    // Set paint styles
+    paintCtx.lineCap = 'round';
+    paintCtx.lineJoin = 'round';
+    paintCtx.lineWidth = gCtx.lineWidth;
+    paintCtx.strokeStyle = gCtx.strokeStyle;
 
-  paintCtx.lineTo(offsetX, offsetY);
-  paintCtx.stroke();
-
-  console.log('Drawing stroke at:', offsetX, offsetY, 'on paintLayer:', paintLayer);
+    paintCtx.lineTo(offsetX, offsetY);
+    paintCtx.stroke();
 });
-
 
 gCanvas.addEventListener('mouseup', () => {
     if (!isPainting) return;
@@ -377,4 +377,3 @@ function isInsideSticker(x, y, sticker) {
     y < sticker.y + sticker.size / 2
   );
 }
-
