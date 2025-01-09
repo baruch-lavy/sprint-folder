@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme Generator - Editor</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">LOGO</div>
+    <nav>
+      <a href="gallery.html">Gallery</a>
+      <a href="saved.html">Saved Memes</a>
+    </nav>
+  </header>
+  <main class="editor-container">
+    <div class="meme-display">
+      <canvas id="meme-canvas"></canvas>
+    </div>
+    <div class="editor-tools">
+      <button id="add-text">Add Text</button>
+      <button id="switch-line">Switch Line</button>
+      <input type="text" id="text-input" placeholder="Edit text">
+      <div>
+        <button id="increase-font">A+</button>
+        <button id="decrease-font">A-</button>
+        <select id="font-select">
+          <option value="Impact">Impact</option>
+          <option value="Arial">Arial</option>
+        </select>
+      </div>
+      <button id="download-btn">Download</button>
+      <button id="save-btn">Save</button>
+    </div>
+  </main>
+  <script src="js/meme-service.js" type="module"></script>
+  <script src="js/editor.js" type="module"></script>  
+</body>
+</html>
+
