@@ -1,8 +1,30 @@
 // Data Models
 export const gImgs = [
-    { id: 1, url: 'assets/img/img5.jpg', keywords: ['funny', 'animal'] },
-    { id: 2, url: 'assets/img/img2.jpg', keywords: ['funny', 'men'] },
-    { id: 3, url: 'assets/img/img4.jpg', keywords: ['cartoon', 'funny'] },
+    { id: 1, url: 'assets/img/2.jpg', keywords: ['funny', 'animal'] },
+    { id: 2, url: 'assets/img/003.jpg', keywords: ['funny', 'men'] },
+    { id: 3, url: 'assets/img/004.jpg', keywords: ['cartoon', 'funny'] },
+    { id: 4, url: 'assets/img/5.jpg', keywords: ['funny, animal'] },
+    { id: 5, url: 'assets/img/005.jpg', keywords: ['funny, animal'] },
+    { id: 6, url: 'assets/img/006.jpg', keywords: ['funny, animal'] },
+    { id: 7, url: 'assets/img/8.jpg', keywords: ['funny, animal'] },
+    { id: 8, url: 'assets/img/9.jpg', keywords: ['funny, animal'] },
+    { id: 9, url: 'assets/img/12.jpg', keywords: ['funny, animal'] },
+    { id: 10, url: 'assets/img/19.jpg', keywords: ['funny, animal'] },
+    { id: 11, url: 'assets/img/Ancient-Aliens.jpg', keywords: ['funny, animal'] },
+    { id: 12, url: 'assets/img/drevil.jpg', keywords: ['funny, animal'] },
+    { id: 13, url: 'assets/img/img2.jpg', keywords: ['funny, animal'] },
+    { id: 14, url: 'assets/img/img4.jpg', keywords: ['funny, animal'] },
+    { id: 15, url: 'assets/img/img5.jpg', keywords: ['funny, animal'] },
+    { id: 16, url: 'assets/img/img6.jpg', keywords: ['funny, animal'] },
+    { id: 17, url: 'assets/img/img11.jpg', keywords: ['funny, animal'] },
+    { id: 18, url: 'assets/img/img12.jpg', keywords: ['funny, animal'] },
+    { id: 19, url: 'assets/img/leo.jpg', keywords: ['funny, animal'] },
+    { id: 20, url: 'assets/img/meme1.jpg', keywords: ['funny, animal'] },
+    { id: 21, url: 'assets/img/One-Dose-NotSimply.jpg', keywords: ['funny, animal'] },
+    { id: 22, url: 'assets/img/Oprah-You-Get-A.jpg', keywords: ['funny, animal'] },
+    { id: 23, url: 'assets/img/patrick.jpg', keywords: ['funny, animal'] },
+    { id: 24, url: 'assets/img/putin.jpg', keywords: ['funny, animal'] },
+    { id: 25, url: 'assets/img/X-Everywhere.jpg', keywords: ['funny, animal'] },
 ]
 
 const gStickers = [
@@ -42,14 +64,12 @@ function resetPaintLayer() {
     }
 }
 
-
 // Set the selected image for the meme
 function setImg(imgId) {
     gMeme.selectedImgId = imgId;
     resetPaintLayer(); // Clear painting strokes
     resetMeme();
 }
-
 
 // Reset the meme to a default state
 function resetMeme() {
@@ -86,7 +106,6 @@ function addLine(gCanvas) {
     console.log('Added new line:', newLine);
 }
 
-
 // Delete the currently selected text line
 function deleteLine() {
     if (gMeme.lines.length === 0) return
@@ -103,7 +122,6 @@ function switchLine() {
     gMeme.selectedLineIdx = (gMeme.selectedLineIdx + 1) % gMeme.lines.length;
     console.log('Switched to line:', gMeme.selectedLineIdx, gMeme.lines[gMeme.selectedLineIdx]);
 }
-
 
 // Update the text of the currently selected line
 function setLineTxt(txt) {

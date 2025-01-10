@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meme Generator - Editor</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/editor.css">
 </head>
 <body>
   <header>
@@ -20,7 +20,7 @@
     </div>
     <div class="editor-tools">
       <button id="paint-toggle">Toggle Paint Mode</button>
-      <input type="range" id="brush-size" min="1" max="50" value="5">
+      <input type="range" id="brush-size" min="1" max="45" value="5">
       <label for="paint-color">Paint-color</label>
       <input type="color" id="paint-color" value="#000000">
       <label for="text-color">Text color</label>
@@ -35,6 +35,8 @@
         <select id="font-select">
           <option value="Impact">Impact</option>
           <option value="Arial">Arial</option>
+          <option value="Comic Sans MS">Comic Sans MS</option>
+          <option value="Verdana">Verdana</option>
         </select>
       </div>
       <button id="download-btn">Download</button>
