@@ -20,7 +20,6 @@ console.log(gMeme)
 let gCanvas, gCtx
 let paintLayer = null // Offscreen canvas for painting
 
-
 // Initialize the editor
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -134,8 +133,8 @@ function renderTextLines() {
 // Render stickers on the canvas
 function renderStickers() {
   gMeme.stickers.forEach(sticker => {
-    const img = new Image();
-    img.src = sticker.url;
+    const img = new Image()
+    img.src = sticker.url
     img.onload = () => {
       gCtx.drawImage(
         img,
@@ -143,88 +142,84 @@ function renderStickers() {
         sticker.y - sticker.size / 2,
         sticker.size,
         sticker.size
-      );
-    };
-  });
+      )
+    }
+  })
 }
 
 // Set up button and canvas events
 function setupEventListeners() {
 
-  let isPainting = false;
+  let isPainting = false
 
   document.getElementById('paint-toggle').addEventListener('click', () => {
-    isPainting = !isPainting; // Toggle painting mode
-    console.log('Painting mode:', isPainting ? 'ON' : 'OFF');
-  });
+    isPainting = !isPainting // Toggle painting mode
+    console.log('Painting mode:', isPainting ? 'ON' : 'OFF')
+  })
 
   document.getElementById('brush-size').addEventListener('input', (event) => {
-    const brushSize = event.target.value;
+    const brushSize = event.target.value
 
     // Update both gCtx and paintCtx (if paintLayer exists)
     gCtx.lineWidth = brushSize;
     if (paintLayer) {
-      const paintCtx = paintLayer.getContext('2d');
-      paintCtx.lineWidth = brushSize;
+      const paintCtx = paintLayer.getContext('2d')
+      paintCtx.lineWidth = brushSize
     }
 
-    console.log('Brush size updated to:', brushSize);
-  });
+    console.log('Brush size updated to:', brushSize)
+  })
 
   document.getElementById('paint-color').addEventListener('input', (event) => {
-   var brushColor = event.target.value; // Get the selected color
+   var brushColor = event.target.value // Get the selected color
 
     // Update both gCtx and paintCtx (if paintLayer exists)
-    gCtx.strokeStyle = brushColor;
+    gCtx.strokeStyle = brushColor
     if (paintLayer) {
-      const paintCtx = paintLayer.getContext('2d');
-      paintCtx.strokeStyle = brushColor;
+      const paintCtx = paintLayer.getContext('2d')
+      paintCtx.strokeStyle = brushColor
     }
 
-    console.log('Brush color updated to:', brushColor); // Debug log
-  });
-
-
+    console.log('Brush color updated to:', brushColor) // Debug log
+  })
 
   gCanvas.addEventListener('mousedown', (event) => {
-    if (!isPainting) return;
+    if (!isPainting) return
 
-    const { offsetX, offsetY } = event;
-    const paintCtx = paintLayer.getContext('2d');
-    paintCtx.beginPath();
-    paintCtx.moveTo(offsetX, offsetY);
+    const { offsetX, offsetY } = event
+    const paintCtx = paintLayer.getContext('2d')
+    paintCtx.beginPath()
+    paintCtx.moveTo(offsetX, offsetY)
 
-    gCanvas.isDrawing = true;
-  });
+    gCanvas.isDrawing = true
+  })
 
   gCanvas.addEventListener('mousemove', (event) => {
-    if (!isPainting || !gCanvas.isDrawing) return;
+    if (!isPainting || !gCanvas.isDrawing) return
 
-    const paintCtx = paintLayer.getContext('2d');
+    const paintCtx = paintLayer.getContext('2d')
     const { offsetX, offsetY } = event;
 
     // Ensure the correct brush properties are applied
-    paintCtx.lineCap = 'round';
-    paintCtx.lineJoin = 'round';
+    paintCtx.lineCap = 'round'
+    paintCtx.lineJoin = 'round'
 
-    paintCtx.lineTo(offsetX, offsetY);
-    paintCtx.stroke();
+    paintCtx.lineTo(offsetX, offsetY)
+    paintCtx.stroke()
 
-    console.log('Using brush color:', paintCtx.strokeStyle); // Debug log
-  });
+    console.log('Using brush color:', paintCtx.strokeStyle) // Debug log
+  })
 
 
   gCanvas.addEventListener('mouseup', () => {
-    gCanvas.isDrawing = false;
-  });
-
-
+    gCanvas.isDrawing = false
+  })
 
   document.getElementById('text-color').addEventListener('input', (event) => {
-    const selectedColor = event.target.value;
-    setLineColor(selectedColor); // Update the line color
-    renderMeme(); // Re-render the canvas
-  });
+    const selectedColor = event.target.value
+    setLineColor(selectedColor) // Update the line color
+    renderMeme() // Re-render the canvas
+  })
 
   // // Add a new text line
   // document.getElementById('add-text').addEventListener('click', () => {
@@ -234,113 +229,110 @@ function setupEventListeners() {
 
   // Switch to the next text line
   document.getElementById('switch-line').addEventListener('click', () => {
-    switchLine();
-    const currentColor = gMeme.lines[gMeme.selectedLineIdx]?.color || '#ffffff';
-    document.getElementById('text-color').value = currentColor;
-    renderMeme();
-  });
-
+    switchLine()
+    const currentColor = gMeme.lines[gMeme.selectedLineIdx]?.color || '#ffffff'
+    document.getElementById('text-color').value = currentColor
+    renderMeme()
+  })
 
   // Update text input for the selected line
   document.getElementById('text-input').addEventListener('input', event => {
-    setLineTxt(event.target.value);
-    renderMeme();
-  });
+    setLineTxt(event.target.value)
+    renderMeme()
+  })
 
   document.getElementById('font-select').addEventListener('change', event => {
     const selectedFont = event.target.value; // Get the selected font
-    setLineFont(selectedFont); // Update the font in the data
-    renderMeme(); // Re-render the meme to apply the font change
-  });
+    setLineFont(selectedFont) // Update the font in the data
+    renderMeme() // Re-render the meme to apply the font change
+  })
 
 
   // Font size adjustments
   document.getElementById('increase-font').addEventListener('click', () => {
-    updateFontSize(2);
-    renderMeme();
-  });
+    updateFontSize(2)
+    renderMeme()
+  })
 
   document.getElementById('decrease-font').addEventListener('click', () => {
-    updateFontSize(-2);
-    renderMeme();
-  });
+    updateFontSize(-2)
+    renderMeme()
+  })
 
   document.getElementById('add-line-btn').addEventListener('click', () => {
-    addLine(gCanvas); // No need to pass gCanvas if it's not used
-    renderMeme();
-  });
+    addLine(gCanvas) // No need to pass gCanvas if it's not used
+    renderMeme()
+  })
 
 
   // Add stickers
   document.querySelectorAll('.sticker-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const stickerId = +btn.dataset.stickerId;
-      addSticker(stickerId);
-      renderMeme();
-    });
-  });
+      const stickerId = +btn.dataset.stickerId
+      addSticker(stickerId)
+      renderMeme()
+    })
+  })
 
   // Save the meme
   document.getElementById('save-btn').addEventListener('click', () => {
-    saveMeme(gCanvas);
-    alert('Meme saved!');
-  });
+    saveMeme(gCanvas)
+    alert('Meme saved!')
+  })
 
   // Download the meme
   document.getElementById('download-btn').addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.download = 'my-meme.png';
-    link.href = gCanvas.toDataURL();
-    link.click();
-  });
-
-
+    const link = document.createElement('a')
+    link.download = 'my-meme.png'
+    link.href = gCanvas.toDataURL()
+    link.click()
+  })
 
   // Canvas drag-and-drop events
-  setupDragAndDrop();
+  setupDragAndDrop()
 }
 
 // Drag-and-drop functionality
 function setupDragAndDrop() {
   gCanvas.addEventListener('mousedown', event => {
-    const { offsetX, offsetY } = event;
+    const { offsetX, offsetY } = event
     const lineIdx = gMeme.lines.findIndex(line =>
       isInsideLine(offsetX, offsetY, line)
-    );
-    if (lineIdx !== -1) setDragging(true, lineIdx);
+    )
+    if (lineIdx !== -1) setDragging(true, lineIdx)
 
     const stickerIdx = gMeme.stickers.findIndex(sticker =>
       isInsideSticker(offsetX, offsetY, sticker)
-    );
+    )
     if (stickerIdx !== -1) setDragging(true, stickerIdx, 'sticker');
-  });
+  })
 
   gCanvas.addEventListener('mousemove', event => {
-    const { movementX, movementY } = event;
+    const { movementX, movementY } = event
     gMeme.lines.forEach((line, idx) => {
-      if (line.isDragging) updateDragPosition(movementX, movementY, idx);
-    });
+      if (line.isDragging) updateDragPosition(movementX, movementY, idx)
+    })
     gMeme.stickers.forEach((sticker, idx) => {
-      if (sticker.isDragging) updateDragPosition(movementX, movementY, idx, 'sticker');
-    });
-    renderMeme();
-  });
+      if (sticker.isDragging) updateDragPosition(movementX, movementY, idx, 'sticker')
+    })
+    renderMeme()
+  })
 
   gCanvas.addEventListener('mouseup', () => {
-    gMeme.lines.forEach((line, idx) => setDragging(false, idx));
-    gMeme.stickers.forEach((sticker, idx) => setDragging(false, idx, 'sticker'));
-  });
+    gMeme.lines.forEach((line, idx) => setDragging(false, idx))
+    gMeme.stickers.forEach((sticker, idx) => setDragging(false, idx, 'sticker'))
+  })
 }
 
 function isInsideLine(x, y, line) {
-  const textWidth = gCtx.measureText(line.txt).width;
-  const textHeight = line.size;
+  const textWidth = gCtx.measureText(line.txt).width
+  const textHeight = line.size
   return (
     x > line.x - textWidth / 2 &&
     x < line.x + textWidth / 2 &&
     y > line.y - textHeight / 2 &&
     y < line.y + textHeight / 2
-  );
+  )
 }
 
 function isInsideSticker(x, y, sticker) {
@@ -349,5 +341,5 @@ function isInsideSticker(x, y, sticker) {
     x < sticker.x + sticker.size / 2 &&
     y > sticker.y - sticker.size / 2 &&
     y < sticker.y + sticker.size / 2
-  );
+  )
 }

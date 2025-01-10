@@ -21,16 +21,16 @@ function renderGallery(filter = '') {
 function setupSearch() {
   document.getElementById('search-input').addEventListener('input', event => {
     renderGallery(event.target.value.toLowerCase())
-  });
+  })
 }
 
 // Select an image and navigate to the editor
 
 function selectImage(imgId) {
-  setImg(imgId); 
-  localStorage.setItem('selectedImgId', imgId); // Sets the selected image ID
-  console.log('Navigating to editor with Image ID:', imgId); // Debug log
-  window.location.href = 'editor.html'; // Redirect to editor
+  setImg(imgId)
+  localStorage.setItem('selectedImgId', imgId) // Sets the selected image ID
+  console.log('Navigating to editor with Image ID:', imgId) // Debug log
+  window.location.href = 'editor.html' // Redirect to editor
 }
 
 

@@ -53,22 +53,22 @@ export let gMeme = {
 
 // LOCAL STORAGE KEYS
 const STORAGE_KEY_SAVED_MEMES = 'savedMemes'
-let paintLayer = null; // Offscreen canvas for painting
+let paintLayer = null
 
 // --- FUNCTIONS --- //
 
 function resetPaintLayer() {
     if (paintLayer) {
-        const paintCtx = paintLayer.getContext('2d');
-        paintCtx.clearRect(0, 0, paintLayer.width, paintLayer.height);
+        const paintCtx = paintLayer.getContext('2d')
+        paintCtx.clearRect(0, 0, paintLayer.width, paintLayer.height)
     }
 }
 
 // Set the selected image for the meme
 function setImg(imgId) {
-    gMeme.selectedImgId = imgId;
-    resetPaintLayer(); // Clear painting strokes
-    resetMeme();
+    gMeme.selectedImgId = imgId
+    resetPaintLayer()
+    resetMeme()
 }
 
 // Reset the meme to a default state
@@ -101,9 +101,9 @@ function addLine(gCanvas) {
         y: (gMeme.lines.length + 1) * 50, // Stagger lines vertically
         isDragging: false,
     };
-    gMeme.lines.push(newLine);
-    gMeme.selectedLineIdx = gMeme.lines.length - 1; // Select the new line
-    console.log('Added new line:', newLine);
+    gMeme.lines.push(newLine)
+    gMeme.selectedLineIdx = gMeme.lines.length - 1// Select the new line
+    console.log('Added new line:', newLine)
 }
 
 // Delete the currently selected text line
@@ -115,12 +115,12 @@ function deleteLine() {
 
 // Switch focus to the next text line
 function switchLine() {
-    console.log('Lines:', gMeme.lines);
-    console.log('Selected Line Index Before Switch:', gMeme.selectedLineIdx);
+    console.log('Lines:', gMeme.lines)
+    console.log('Selected Line Index Before Switch:', gMeme.selectedLineIdx)
 
-    if (gMeme.lines.length === 0) return;
-    gMeme.selectedLineIdx = (gMeme.selectedLineIdx + 1) % gMeme.lines.length;
-    console.log('Switched to line:', gMeme.selectedLineIdx, gMeme.lines[gMeme.selectedLineIdx]);
+    if (gMeme.lines.length === 0) return
+    gMeme.selectedLineIdx = (gMeme.selectedLineIdx + 1) % gMeme.lines.length
+    console.log('Switched to line:', gMeme.selectedLineIdx, gMeme.lines[gMeme.selectedLineIdx])
 }
 
 // Update the text of the currently selected line
@@ -132,7 +132,7 @@ function setLineTxt(txt) {
 
 function setLineFont(font) {
     if (gMeme.lines[gMeme.selectedLineIdx]) {
-        gMeme.lines[gMeme.selectedLineIdx].font = font; // Set the font
+        gMeme.lines[gMeme.selectedLineIdx].font = font // Set the font
     }
 }
 
@@ -146,7 +146,7 @@ function updateFontSize(change) {
 // Update the color of the selected line
 function setLineColor(color) {
     if (gMeme.lines[gMeme.selectedLineIdx]) {
-        gMeme.lines[gMeme.selectedLineIdx].color = color;
+        gMeme.lines[gMeme.selectedLineIdx].color = color
     }
 }
 
@@ -174,13 +174,12 @@ function addSticker(stickerId, gCanvas) {
 
 // Save the current meme to localStorage
 function saveMeme(gCanvas) {
-    const savedMemes = loadFromStorage(STORAGE_KEY_SAVED_MEMES) || [];
-    const memeDataUrl = gCanvas.toDataURL(); // Save the meme as a base64 image
-    savedMemes.push(memeDataUrl);
-    saveToStorage(STORAGE_KEY_SAVED_MEMES, savedMemes);
-    console.log('Meme saved successfully!');
+    const savedMemes = loadFromStorage(STORAGE_KEY_SAVED_MEMES) || []
+    const memeDataUrl = gCanvas.toDataURL() // Save the meme as a base64 image
+    savedMemes.push(memeDataUrl)
+    saveToStorage(STORAGE_KEY_SAVED_MEMES, savedMemes)
+    console.log('Meme saved successfully!')
 }
-
 
 // Get the saved memes from localStorage
 function getSavedMemes() {
@@ -192,7 +191,7 @@ function getSavedMemes() {
 // Set the dragging state of a line or sticker
 function setDragging(isDragging, idx, type = 'line') {
     if (type === 'line') {
-        gMeme.lines[idx].isDragging = isDragging;
+        gMeme.lines[idx].isDragging = isDragging
     } else if (type === 'sticker') {
         gMeme.stickers[idx].isDragging = isDragging
     }
